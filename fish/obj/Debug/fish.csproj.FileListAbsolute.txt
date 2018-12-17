@@ -36,3 +36,4 @@ E:\Projects\fish\fish\obj\Debug\fish.csproj.CoreCompileInputs.cache
 E:\Projects\fish\fish\obj\Debug\fish.csproj.CopyComplete
 E:\Projects\fish\fish\obj\Debug\fish.exe
 E:\Projects\fish\fish\obj\Debug\fish.pdb
+E:\Projects\fish\fish\obj\Debug\OverLoadStyle.baml
