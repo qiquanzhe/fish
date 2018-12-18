@@ -37,3 +37,11 @@ E:\Projects\fish\fish\obj\Debug\fish.csproj.CopyComplete
 E:\Projects\fish\fish\obj\Debug\fish.exe
 E:\Projects\fish\fish\obj\Debug\fish.pdb
 E:\Projects\fish\fish\obj\Debug\OverLoadStyle.baml
+E:\Projects\fish\fish\obj\Debug\workSpaceUnit.g.cs
+E:\Projects\fish\fish\obj\Debug\workSpaceUnit.baml
+E:\Projects\fish\fish\bin\Debug\ControlzEx.dll
+E:\Projects\fish\fish\bin\Debug\MahApps.Metro.dll
+E:\Projects\fish\fish\bin\Debug\System.Windows.Interactivity.dll
+E:\Projects\fish\fish\bin\Debug\ControlzEx.pdb
+E:\Projects\fish\fish\bin\Debug\MahApps.Metro.pdb
+E:\Projects\fish\fish\bin\Debug\MahApps.Metro.xml
