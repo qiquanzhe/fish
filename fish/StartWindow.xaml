@@ -11,16 +11,14 @@
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"        
+        TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}" 
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None"
-        MouseMove="Move_MouseMove">
+        MouseMove="Move_MouseMove" ResizeMode="NoResize"
+        >
     <Grid>
-        <!--Grid.Background>
-            <ImageBrush ImageSource="Resources/bg1.png" Stretch="UniformToFill"/>
-        </-->
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="443" Margin="-2,-1,0,0" Stroke="Black" VerticalAlignment="Top" Width="220">
             <Rectangle.Effect>
                 <BlurEffect Radius="25"/>
@@ -44,7 +42,7 @@
             <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0,10,341,0" Text="WorkSpace" VerticalAlignment="Top" Height="38" FontSize="30" Foreground="#FF3AA6D0" FontFamily="consolas" HorizontalAlignment="Right" Width="162"/>
         </materialDesign:Card>
         <ScrollViewer Name="workspaceScoll" HorizontalAlignment="Left" Height="350" Margin="236,82,0,0" VerticalAlignment="Top" Width="546">
-            <Grid Name="workspaceGrid" Height="346" Width="538">
+            <Grid Name="workspaceGrid" Height="auto" Width="538">
             </Grid>
         </ScrollViewer>
         <Image HorizontalAlignment="Left" Height="146" Margin="28,256,0,0" VerticalAlignment="Top" Width="160" Source="Resources/xianyu.png"/>

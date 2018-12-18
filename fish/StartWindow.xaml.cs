@@ -119,7 +119,7 @@ namespace fish
             ImageHandleWindow imageHandleWindow =
                 new ImageHandleWindow(FileUrl);
             imageHandleWindow.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

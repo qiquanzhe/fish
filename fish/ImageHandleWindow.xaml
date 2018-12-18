@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:fish"
         mc:Ignorable="d"
-        Title="ImageHandleWindow" Height="450" Width="800">
+        Title="Colorful Salted Fishes" Height="600" Width="950"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        MouseMove="Move_MouseMove" ResizeMode="NoResize">
     <Grid>
-        
+        <ListBox Name="optionSelectView" HorizontalAlignment="Left" Height="auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="169">
+            <ListBoxItem Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Content="Brightness"/>
+            <ListBoxItem Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Content="Blur"/>
+            <ListBoxItem Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Content="Scale"/>
+            <ListBoxItem Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Content="ListBoxItem"/>
+            <ListBoxItem Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Content="ListBoxItem"/>
+            <ListBoxItem Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Content="ListBoxItem"/>
+            <ListBoxItem Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Content="素描" Selected="ListBoxItem_Selected"/>
+        </ListBox>
+        <Image Name="HandlingImage" HorizontalAlignment="Center" Height="580" Margin="184,10,0,0" VerticalAlignment="Center" Width="756"/>
     </Grid>
 </Window>
