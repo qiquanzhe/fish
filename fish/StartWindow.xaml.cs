@@ -92,12 +92,34 @@ namespace fish
         private void WorkSpaceUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             workSpaceUnit workSpaceUnit = sender as workSpaceUnit;
-            MessageBox.Show(workSpaceUnit.textBlock.Text);
+            showHandleWindow("D:/WorkSpace/" + workSpaceUnit.textBlock.Text);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog =
+                new System.Windows.Forms.OpenFileDialog();
+            openFileDialog.Multiselect = true;//该值确定是否可以选择多个文件
+            openFileDialog.Title = "请选择文件夹";
+            openFileDialog.Filter = "图像文件(*.jpg; *.jpg; *.jpeg; *.gif; *.png)| *.jpg; *.jpeg; *.gif; *.png";
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string file = openFileDialog.FileName;
+                showHandleWindow(file);
+            }
+        }
+
+        private void showHandleWindow(string FileUrl)
+        {
+            ImageHandleWindow imageHandleWindow =
+                new ImageHandleWindow(FileUrl);
+            imageHandleWindow.Show();
+            this.Hide();
         }
     }
 }
