@@ -8,11 +8,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 
 namespace fish
@@ -22,6 +22,9 @@ namespace fish
     /// </summary>
     public partial class ImageHandleWindow : Window
     {
+
+        private string fileurl;
+        private string newfileurl;
         public ImageHandleWindow()
         {
             InitializeComponent();
@@ -34,7 +37,7 @@ namespace fish
             HandlingImage.Source = new BitmapImage(new Uri(FileUrl, UriKind.Absolute));
         }
 
-        private void Move_MouseMove(object sender, MouseEventArgs e)
+        private void Move_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
@@ -42,29 +45,17 @@ namespace fish
             }
         }
 
-
-        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
-        {
-            RunPythonScript("im.py","-u",fileurl);
-            string newurl = fileurl.Replace("/", "\\");
-            
-            HandlingImage.Source = new BitmapImage(new Uri(@""+newurl, UriKind.Absolute));
-        }
-
         private void RunPythonScript(string sArgName, string args = "", params string[] teps)
         {
             Process p = new Process();
-            string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + sArgName;// 获得python文件的绝对路径（将文件放在c#的debug文件夹中可以这样操作）
-           
-            //path = @"C:\Users\user\Desktop\test\" + sArgName;//(因为我没放debug下，所以直接写的绝对路径,替换掉上面的路径了)
-            p.StartInfo.FileName = @"python3.exe";//没有配环境变量的话，可以像我这样写python.exe的绝对路径。如果配了，直接写"python.exe"即可
+            string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + sArgName;
+            p.StartInfo.FileName = @"python3.exe";
             string sArguments = path;
             foreach (string sigstr in teps)
             {
-                sArguments += " " + sigstr;//传递参数
+                sArguments += " " + sigstr;
             }
             sArguments += " " + args;
-            MessageBox.Show(sArguments);
             p.StartInfo.Arguments = sArguments;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
@@ -73,29 +64,96 @@ namespace fish
             p.StartInfo.CreateNoWindow = true;
 
             bool success = p.Start();
-            MessageBox.Show(success.ToString());
             p.BeginOutputReadLine();
-            p.OutputDataReceived += new DataReceivedEventHandler(p_OutputDataReceived);
+            p.OutputDataReceived += new DataReceivedEventHandler(P_OutputDataReceived);
             Console.ReadLine();
             p.WaitForExit();
         }
-        //输出打印的信息
-        private void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
+
+        private void P_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            MessageBox.Show(Environment.NewLine);
             if (!string.IsNullOrEmpty(e.Data))
             {
-                AppendText(e.Data+ Environment.NewLine);
+                AppendText(e.Data + Environment.NewLine);
             }
         }
+
         private delegate void AppendTextCallback(string text);
         private string AppendText(string text)
         {
-            //Console.WriteLine(text);     //此处在控制台输出.py文件print的结果
-            //MessageBox.Show(text);
-            fileurl = text;
+            newfileurl = text;
             return text;
         }
-        private string fileurl;
+
+        private void OriginalImage(object sender, RoutedEventArgs e)
+        {
+            HandlingImage.Source = new BitmapImage(new Uri(@"" + fileurl, UriKind.Absolute));
+        }
+
+        private void BrightImage(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript("bright.py", "-u", fileurl);
+            string newurl = newfileurl.Replace("/", "\\");
+            HandlingImage.Source = new BitmapImage(new Uri(@"" + newurl, UriKind.Absolute));
+        }
+        private void SketchImage(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript("sketch.py","-u",fileurl);
+            string newurl = newfileurl.Replace("/", "\\");
+            HandlingImage.Source = new BitmapImage(new Uri(@""+newurl, UriKind.Absolute));
+        }
+
+
+        private void BlueImage(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript("GaussianBlur.py", "-u", fileurl);
+            string newurl = newfileurl.Replace("/", "\\");
+            HandlingImage.Source = new BitmapImage(new Uri(@"" + newurl, UriKind.Absolute));
+        }
+
+        private void RegionalGrayImage(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript("regionalGray.py", "-u", fileurl);
+            string newurl = newfileurl.Replace("/", "\\");
+            HandlingImage.Source = new BitmapImage(new Uri(@"" + newurl, UriKind.Absolute));
+        }
+
+
+        private void CannyImage(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript("Canny.py", "-u", fileurl);
+            string newurl = newfileurl.Replace("/", "\\");
+            HandlingImage.Source = new BitmapImage(new Uri(@"" + newurl, UriKind.Absolute));
+        }
+
+        private void ReveseImage(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript("reverse.py", "-u", fileurl);
+            string newurl = newfileurl.Replace("/", "\\");
+            HandlingImage.Source = new BitmapImage(new Uri(@"" + newurl, UriKind.Absolute));
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
+
+        private void SaveImage(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "图像文件(*.bmp,*.png,*.jpg)|*.bmp;*.png;*.jpg | All Files | *.*",
+                RestoreDirectory = true
+            };
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                PngBitmapEncoder pngBitmapEncoder = new PngBitmapEncoder();
+                pngBitmapEncoder.Frames.Add(BitmapFrame.Create((BitmapSource)this.HandlingImage.Source));
+                System.IO.FileStream fileStream = new System.IO.FileStream(saveFileDialog.FileName, System.IO.FileMode.Create);
+                pngBitmapEncoder.Save(fileStream);
+            }
+        }
+
     }
 }

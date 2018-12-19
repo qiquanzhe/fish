@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -92,7 +93,7 @@ namespace fish
         private void WorkSpaceUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             workSpaceUnit workSpaceUnit = sender as workSpaceUnit;
-            showHandleWindow("D:/WorkSpace/" + workSpaceUnit.textBlock.Text);
+            showHandleWindow("D:\\WorkSpace\\" + workSpaceUnit.textBlock.Text);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -121,5 +122,50 @@ namespace fish
             imageHandleWindow.Show();
             this.Close();
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript("src/ar_main.py");
+        }
+
+        private void RunPythonScript(string sArgName, string args = "", params string[] teps)
+        {
+            Process p = new Process();
+            string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + sArgName;
+            p.StartInfo.FileName = @"python.exe";
+            string sArguments = path;
+            foreach (string sigstr in teps)
+            {
+                sArguments += " " + sigstr;
+            }
+            sArguments += " " + args;
+            p.StartInfo.Arguments = sArguments;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.CreateNoWindow = true;
+
+            bool success = p.Start();
+            p.BeginOutputReadLine();
+            //p.OutputDataReceived += new DataReceivedEventHandler(P_OutputDataReceived);
+            Console.ReadLine();
+            p.WaitForExit();
+        }
+
+        /*private void P_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                AppendText(e.Data + Environment.NewLine);
+            }
+        }
+
+        private delegate void AppendTextCallback(string text);
+        private string AppendText(string text)
+        {
+            //newfileurl = text;
+            return text;
+        }*/
     }
 }
